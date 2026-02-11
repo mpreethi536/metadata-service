@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = "preethi536/metadata-service-image"
-        APP_NAME   = "metadata-service"
     }
 
     options {
@@ -21,39 +20,22 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'echo "Build completed"'
+                sh 'mvn clean package'
             }
         }
 
-        stage('Test') {
+        stage('Archive Jar') {
             steps {
-                sh 'echo "Tests passed"'
-            }
-        }
-
-        stage('Package Artifact') {
-            steps {
-                sh '''
-                  git archive -o metadata-service-${BUILD_NUMBER}.tar.gz HEAD
-                '''
-            }
-        }
-
-        stage('Archive Artifact') {
-            steps {
-                archiveArtifacts artifacts: 'metadata-service-*.tar.gz',
+                archiveArtifacts artifacts: 'target/*.jar',
                                  fingerprint: true
             }
         }
-
-        /* ---------------- DOCKER STAGES ---------------- */
-
+        
         stage('Build Docker Image') {
             steps {
                 sh '''
                   docker build \
                     --build-arg BUILD_NUMBER=${BUILD_NUMBER} \
-                    --build-arg APP_NAME=${APP_NAME} \
                     -t ${IMAGE_NAME}:${BUILD_NUMBER} \
                     -t ${IMAGE_NAME}:latest .
                 '''
