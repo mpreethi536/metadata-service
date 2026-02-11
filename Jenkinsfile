@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "mpreethi536/metadata-service-image"
+        IMAGE_NAME = "preethi536/metadata-service-image"
         APP_NAME   = "metadata-service"
     }
 
