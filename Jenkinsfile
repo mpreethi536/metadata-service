@@ -34,7 +34,7 @@ pipeline {
         stage('Package Artifact') {
             steps {
                 sh '''
-                  tar -czf metadata-service-${BUILD_NUMBER}.tar.gz .
+                  git archive -o metadata-service-${BUILD_NUMBER}.tar.gz HEAD
                 '''
             }
         }
