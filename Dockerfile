@@ -9,8 +9,10 @@ WORKDIR /app
 # artifact created by Jenkins
 COPY metadata-service-*.tar.gz /app/
 
-RUN tar -xzf metadata-service-*.tar.gz && \
-    rm metadata-service-*.tar.gz
+RUN for f in metadata-service-*.tar.gz; do \
+      tar -xzf "$f"; \
+      rm "$f"; \
+    done
 
 LABEL app.name=$APP_NAME
 LABEL build.number=$BUILD_NUMBER
