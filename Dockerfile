@@ -1,20 +1,15 @@
-FROM alpine:3.19
+FROM eclipse-temurin:17-jre
 
 # build-time inputs from Jenkins
 ARG BUILD_NUMBER
-ARG APP_NAME
 
 WORKDIR /app
 
 # artifact created by Jenkins
-COPY metadata-service-*.tar.gz /app/
+COPY target/*.jar app.jar
 
-RUN for f in metadata-service-*.tar.gz; do \
-      tar -xzf "$f"; \
-      rm "$f"; \
-    done
-
-LABEL app.name=$APP_NAME
 LABEL build.number=$BUILD_NUMBER
 
-CMD ["sh"]
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]
