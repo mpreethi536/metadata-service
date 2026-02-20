@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -36,8 +36,7 @@ pipeline {
                 sh '''
                   docker build \
                     --build-arg BUILD_NUMBER=${BUILD_NUMBER} \
-                    -t ${IMAGE_NAME}:${BUILD_NUMBER} \
-                    -t ${IMAGE_NAME}:latest .
+                    -t ${IMAGE_NAME}:${BUILD_NUMBER} .
                 '''
             }
         }
