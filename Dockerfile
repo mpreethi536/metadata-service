@@ -6,7 +6,7 @@ ARG BUILD_NUMBER
 WORKDIR /app
 
 # artifact created by Jenkins
-COPY target/*.jar app.jar
+COPY target/metadata-service.jar app.jar
 
 LABEL build.number=$BUILD_NUMBER
 
