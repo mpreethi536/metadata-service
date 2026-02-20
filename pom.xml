@@ -35,10 +35,18 @@
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 		<dependency>
+      		<groupId>org.springframework.cloud</groupId>
+      		<artifactId>spring-cloud-dependencies</artifactId>
+      		<version>Finchley.SR2</version> <!-- stable release -->
+      		<type>pom</type>
+      		<scope>import</scope>
+    	</dependency>
+		<dependency>
 			<groupId>com.github.ulisesbocchio</groupId>
 			<artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>2.0.0</version>
-		</dependency>
+            <!--<version>2.0.0</version>-->
+        	<version>3.0.4</version> 
+    	</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
