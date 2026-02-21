@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:11-jre
 
 # build-time inputs from Jenkins
 ARG BUILD_NUMBER
