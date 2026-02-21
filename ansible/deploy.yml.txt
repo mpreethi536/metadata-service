@@ -1,0 +1,45 @@
+---
+- name: Deploy Metadata Service Container locally
+  hosts: appserver
+  become: true
+
+  vars:
+    image_name: "preethi536/metadata-service-image"
+    container_name: "metadata-service"
+    host_port: "9090"      # avoid Jenkins port conflict
+    container_port: "8080"
+
+  tasks:
+
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Pull Docker image for this build
+      community.docker.docker_image:
+        name: "{{ image_name }}"
+        tag: "{{ build_number }}"
+        source: pull
+
+    - name: Stop old container if running
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        state: stopped
+      ignore_errors: true
+
+    - name: Remove old container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        state: absent
+      ignore_errors: true
+
+    - name: Run latest container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}:{{ build_number }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "{{ host_port }}:{{ container_port }}"
