@@ -60,7 +60,7 @@ pipeline {
         stage('Deploy via Ansible') {
             steps {
                 sh '''
-                  ansible-playbook ansible/deploy.yml \
+                  ansible-playbook ansible/playbook.yml \
                     -i ansible/inventory.ini \
                     --extra-vars "build_number=${BUILD_NUMBER}"
                 '''
