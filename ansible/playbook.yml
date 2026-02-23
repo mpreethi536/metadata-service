@@ -6,7 +6,7 @@
   vars:
     image_name: "preethi536/metadata-service-image"
     container_name: "metadata-service"
-    host_port: "9090"      # avoid Jenkins port conflict
+    host_port: "9090" 
     container_port: "8080"
 
   tasks:
