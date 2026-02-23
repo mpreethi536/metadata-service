@@ -1,5 +1,5 @@
 ---
-- name: Deploy Metadata Service Container locally
+- name: Deploying Metadata Service Container in local
   hosts: appserver
   become: true
 
@@ -10,7 +10,6 @@
     container_port: "8080"
 
   tasks:
-
     - name: Ensure Docker is running
       service:
         name: docker
@@ -23,23 +22,11 @@
         tag: "{{ build_number }}"
         source: pull
 
-    - name: Stop old container if running
-      community.docker.docker_container:
-        name: "{{ container_name }}"
-        state: stopped
-      ignore_errors: true
-
-    - name: Remove old container
-      community.docker.docker_container:
-        name: "{{ container_name }}"
-        state: absent
-      ignore_errors: true
-
     - name: Run latest container
       community.docker.docker_container:
         name: "{{ container_name }}"
         image: "{{ image_name }}:{{ build_number }}"
         state: started
-        restart_policy: always
+        recreate: true
         ports:
           - "{{ host_port }}:{{ container_port }}"
