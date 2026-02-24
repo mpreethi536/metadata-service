@@ -72,6 +72,19 @@ pipeline {
             }
         }
 
+        stage('Docker Image Scan (Trivy)') {
+            steps {
+                sh '''
+                docker run --rm \
+                  -v /var/run/docker.sock:/var/run/docker.sock \
+                  aquasec/trivy image \
+                  --exit-code 1 \
+                  --severity HIGH,CRITICAL \
+                  ${IMAGE_NAME}:${IMAGE_TAG}
+                '''
+            }
+        }
+
         stage('Push Image to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
