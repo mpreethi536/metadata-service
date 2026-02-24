@@ -80,8 +80,6 @@ pipeline {
                   aquasec/trivy image \
                   --exit-code 1 \
                   --severity HIGH,CRITICAL \
-                  --format json \
-                  --output trivy-report.json \
                   ${IMAGE_NAME}:${BUILD_NUMBER} || true
                 '''
             }
