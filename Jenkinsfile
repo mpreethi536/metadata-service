@@ -30,6 +30,18 @@ pipeline {
             }
         }
 
+        stage('Code Format Check') {
+            steps {
+                sh 'mvn checkstyle:check'
+            }
+        }
+
+        stage('Static Code Analysis') {
+            steps {
+                sh 'mvn verify'
+            }
+        }
+
         stage('Package') {
             steps { 
                 sh 'mvn package -DskipTests' 
