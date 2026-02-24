@@ -42,6 +42,12 @@ pipeline {
             }
         }
 
+        stage('Secret Scan (Gitleaks)') {
+            steps {
+                sh 'gitleaks detect --source=. || true'
+            }
+        }
+
         stage('Package') {
             steps { 
                 sh 'mvn package -DskipTests' 
