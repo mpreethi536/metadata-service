@@ -29,6 +29,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
+
+        stage('Package') {
+            steps { 
+                sh 'mvn package -DskipTests' 
+            }
+        }
         
         stage('Archive Jar') {
             steps {
