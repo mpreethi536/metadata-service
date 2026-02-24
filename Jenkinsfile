@@ -80,7 +80,7 @@ pipeline {
                   aquasec/trivy image \
                   --exit-code 1 \
                   --severity HIGH,CRITICAL \
-                  ${IMAGE_NAME}:${IMAGE_TAG}
+                  ${IMAGE_NAME}:${BUILD_NUMBER}
                 '''
             }
         }
