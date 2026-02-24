@@ -20,10 +20,16 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests -Djacoco.skip=true'
+                sh 'mvn clean compile'
             }
         }
 
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        
         stage('Archive Jar') {
             steps {
                 archiveArtifacts artifacts: 'target/*.jar',
