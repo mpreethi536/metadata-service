@@ -28,6 +28,8 @@
         image: "{{ image_name }}:{{ build_number }}"
         state: started
         recreate: true
+        networks:
+          - name: "{{ MONGO_NETWORK }}"
         ports:
           - "{{ host_port }}:{{ container_port }}"
         env:
