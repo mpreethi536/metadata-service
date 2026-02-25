@@ -121,7 +121,7 @@ pipeline {
                     }
                 }
             }
-        }
+    
         
         stage('Deploy via Ansible') {
             steps {
