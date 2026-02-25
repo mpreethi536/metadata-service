@@ -30,3 +30,8 @@
         recreate: true
         ports:
           - "{{ host_port }}:{{ container_port }}"
+          env:
+          MONGO_USERNAME: "{{ MONGO_USERNAME }}"
+          MONGO_PASSWORD: "{{ MONGO_PASSWORD }}"
+          MONGO_HOST: "{{ MONGO_HOST }}"
+          MONGO_DB: "{{ MONGO_DB }}"         
