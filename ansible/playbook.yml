@@ -22,7 +22,7 @@
         tag: "{{ build_number }}"
         source: pull
 
-    - name: Run latest container
+    - name: Run the latest container
       community.docker.docker_container:
         name: "{{ container_name }}"
         image: "{{ image_name }}:{{ build_number }}"
