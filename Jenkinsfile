@@ -121,7 +121,32 @@ pipeline {
                     }
                 }
             }
-    
+
+        stage('Deploy metadata-service') {
+                steps {
+                        withCredentials([usernamePassword(
+                            credentialsId: 'mongo-creds',
+                            usernameVariable: 'MONGO_USERNAME',
+                            passwordVariable: 'MONGO_PASSWORD'
+                        )]) {
+                        sh '''
+                            # Remove old container if exists
+                            docker rm -f metadata-service || true
+                            # Build and run the metadata-service container
+                            docker build -t ${IMAGE_NAME}:latest .
+
+                            docker run -d \
+                              --name metadata-service \
+                              -p 9090:8080 \
+                              -e MONGO_USERNAME=$MONGO_USERNAME \
+                              -e MONGO_PASSWORD=$MONGO_PASSWORD \
+                              -e MONGO_HOST=metadata-mongo \
+                              -e MONGO_DB=metadata \
+                              ${IMAGE_NAME}:latest
+                        '''
+                    }
+                 }
+            }
         
         stage('Deploy via Ansible') {
             steps {
