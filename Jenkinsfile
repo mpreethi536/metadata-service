@@ -133,7 +133,7 @@ pipeline {
                     sh '''
                         ansible-playbook ansible/playbook.yml \
                         -i ansible/inventory.ini \
-                        --extra-vars "build_number=${BUILD_NUMBER}"
+                        --extra-vars "build_number=${BUILD_NUMBER} MONGO_USERNAME=$MONGO_USERNAME MONGO_PASSWORD=$MONGO_PASSWORD"
                     '''
                     }
                 }
