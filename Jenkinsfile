@@ -100,16 +100,45 @@ pipeline {
                 }
             }
         }
-        stage('Deploy via Ansible') {
+
+        stage('Deploy MongoDB') {
             steps {
-                sh '''
-                  ansible-playbook ansible/playbook.yml \
-                    -i ansible/inventory.ini \
-                    --extra-vars "build_number=${BUILD_NUMBER}"
-                '''
+                withCredentials([usernamePassword(
+                    credentialsId: 'mongo-creds',
+                    usernameVariable: 'MONGO_USERNAME',
+                    passwordVariable: 'MONGO_PASSWORD'
+                )]) {
+                    sh '''
+                        docker rm -f metadata-mongo || true
+                        docker run -d \
+                          --name metadata-mongo \
+                          -e MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME \
+                          -e MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD \
+                          -p 27017:27017 \
+                          mongo:6.0
+                        sleep 15
+                    '''
+                    }
+                }
             }
         }
-    }
+        
+        stage('Deploy via Ansible') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'mongo-creds',
+                    usernameVariable: 'MONGO_USERNAME',
+                    passwordVariable: 'MONGO_PASSWORD'
+                )]) {
+                    sh '''
+                        ansible-playbook ansible/playbook.yml \
+                        -i ansible/inventory.ini \
+                        --extra-vars "build_number=${BUILD_NUMBER}"
+                    '''
+                    }
+                }
+            }
+        }
 
     post {
         success {
