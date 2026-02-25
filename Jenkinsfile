@@ -105,6 +105,16 @@ pipeline {
             }
         }
 
+        stage('Create Docker Network') {
+            steps {
+                sh '''
+                    # Create a Docker network if it doesn't exist
+                    docker network inspect $MONGO_NETWORK >/dev/null 2>&1 || \
+                        docker network create $MONGO_NETWORK
+                '''
+            }
+        }
+        
         stage('Deploy MongoDB') {
             steps {
                 withCredentials([usernamePassword(
