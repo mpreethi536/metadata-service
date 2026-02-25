@@ -3,6 +3,10 @@ pipeline {
 
     environment {
         IMAGE_NAME = "preethi536/metadata-service-image"
+        // Pull Jenkins credentials globally
+        MONGO_CREDS = credentials('mongo-creds')
+        MONGO_HOST = "metadata-mongo"
+        MONGO_DB = "metadata"
     }
 
     options {
